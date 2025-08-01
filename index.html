@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Links | Anaxi</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrious/4.0.2/qrious.min.js"></script>
+    <script>
+      tailwind.config = {
+        darkMode: 'class'
+      };
+
+      function setInitialTheme() {
+        const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+        const storedTheme = localStorage.getItem('theme');
+
+        if (storedTheme === 'dark' || (!storedTheme && prefersDark)) {
+          document.documentElement.classList.add('dark');
+        } else {
+          document.documentElement.classList.remove('dark');
+        }
+      }
+
+      function toggleTheme() {
+        const root = document.documentElement;
+        if (root.classList.contains('dark')) {
+          root.classList.remove('dark');
+          localStorage.setItem('theme', 'light');
+        } else {
+          root.classList.add('dark');
+          localStorage.setItem('theme', 'dark');
+        }
+      }
+
+      function copyAddress() {
+        const address = '0x86E03d05Eb7E98df92B0D8ca8Bd39D2c88EE4190';
+        navigator.clipboard.writeText(address).then(() => {
+          const btn = document.getElementById('copy-btn');
+          btn.innerText = 'Copied! ✅';
+          setTimeout(() => (btn.innerText = 'Copy Address'), 2000);
+        });
+      }
+
+      window.onload = function () {
+        setInitialTheme();
+        new QRious({
+          element: document.getElementById('qr-code'),
+          value: '0x86E03d05Eb7E98df92B0D8ca8Bd39D2c88EE4190',
+          size: 128,
+        });
+      };
+    </script>
+  </head>
+  <body class="bg-white dark:bg-black text-black dark:text-white min-h-screen flex items-center justify-center px-4">
+    <main class="w-full max-w-md text-center space-y-6 py-12">
+      <div class="flex justify-between items-center">
+        <img src="https://avatars.githubusercontent.com/your-username" alt="Profile" class="w-20 h-20 rounded-full border-2 border-gray-300 dark:border-gray-700" />
+        <button onclick="toggleTheme()" class="text-sm px-4 py-2 bg-gray-200 dark:bg-gray-800 rounded-md hover:bg-gray-300 dark:hover:bg-gray-700 transition">
+          Toggle Theme 🌗
+        </button>
+      </div>
+      <h1 class="text-2xl font-bold">Anaxi Manderin</h1>
+      <p class="text-sm text-gray-600 dark:text-gray-400">Blockchain dev · Ethereum ecosystem · dApp tinkerer</p>
+
+      <div class="space-y-4">
+        <a href="https://github.com/anaximanderin" target="_blank" class="flex items-center justify-center gap-2 w-full py-3 rounded-xl bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 transition">
+          GitHub
+        </a>
+        <a href="https://x.com/AnaxiManderin" target="_blank" class="flex items-center justify-center gap-2 w-full py-3 rounded-xl bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 transition">
+          Twitter(X)
+        </a>
+      </div>
+
+      <div class="pt-6 space-y-4">
+        <p class="text-sm text-gray-600 dark:text-gray-400">☕ Like what I do? Support my caffeine addiction:</p>
+        <code class="block text-xs text-indigo-600 dark:text-indigo-400 break-words">0x86E03d05Eb7E98df92B0D8ca8Bd39D2c88EE4190</code>
+        <button id="copy-btn" onclick="copyAddress()" class="px-4 py-2 text-sm bg-indigo-600 text-white rounded-md hover:bg-indigo-700 transition">
+          Copy Address
+        </button>
+        <div class="pt-4">
+          <canvas id="qr-code" class="mx-auto"></canvas>
+        </div>
+      </div>
+
+      <footer class="text-xs text-gray-400 pt-8">“Built with caffeine & Tailwind.”</footer>
+    </main>
+  </body>
+</html>
